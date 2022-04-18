@@ -1,40 +1,33 @@
 Factory Method(Фабричний метод)
-породжувальний патерн проектування, який визначає загальний інтерфейс для створення об’єктів у суперкласі, дозволяючи підкласам змінювати тип створюваних об’єктів.Він вирішує проблему створення різних продуктів, без прив’язки коду до конкретних класів продуктів.
+породжувальний патерн проектування, який визначає загальний інтерфейс для створення об’єктів у суперкласі, дозволяючи підкласам змінювати тип створюваних об’єктів.
 
-Клас Creator оголошує заводський метод, який повинен повертати об’єкт класу Product. Підкласи Creator зазвичай забезпечують реалізацію цього методу.
+Він вирішує проблему створення різних продуктів, без прив’язки коду до конкретних класів продуктів.
 
+interface Product {
+    operation(): string;
+}
+
+/**
+* Клас Creator оголошує factory method, який повинен повертати об’єкт класу Product. 
+* Підкласи Creator зазвичай забезпечують реалізацію цього методу.
+*/
 abstract class Creator {
-    /**
-     * Note that the Creator may also provide some default implementation of the
-     * factory method.
-     */
     public abstract factoryMethod(): Product;
 
-    /**
-     * Also note that, despite its name, the Creator's primary responsibility is
-     * not creating products. Usually, it contains some core business logic that
-     * relies on Product objects, returned by the factory method. Subclasses can
-     * indirectly change that business logic by overriding the factory method
-     * and returning a different type of product from it.
-     */
     public someOperation(): string {
-        // Call the factory method to create a Product object.
         const product = this.factoryMethod();
-        // Now, use the product.
         return `Creator: The same creator's code has just worked with ${product.operation()}`;
     }
 }
 
 /**
- * Concrete Creators override the factory method in order to change the
- * resulting product's type.
+ * Concrete Creators замінюють заводський метод, щоб змінити тип отриманого продукту.
  */
 class ConcreteCreator1 extends Creator {
     /**
-     * Note that the signature of the method still uses the abstract product
-     * type, even though the concrete product is actually returned from the
-     * method. This way the Creator can stay independent of concrete product
-     * classes.
+     * В методі ми все ще використовується абстрактний тип продукту, 
+     * навіть якщо конкретний продукт фактично повертається з методу. 
+     Таким чином Creator може залишатися незалежним від конкретних класів продуктів
      */
     public factoryMethod(): Product {
         return new ConcreteProduct1();
@@ -48,15 +41,7 @@ class ConcreteCreator2 extends Creator {
 }
 
 /**
- * The Product interface declares the operations that all concrete products must
- * implement.
- */
-interface Product {
-    operation(): string;
-}
-
-/**
- * Concrete Products provide various implementations of the Product interface.
+ * Concrete Products забезпечують різні реалізації інтерфейсу продукту.
  */
 class ConcreteProduct1 implements Product {
     public operation(): string {
@@ -71,9 +56,7 @@ class ConcreteProduct2 implements Product {
 }
 
 /**
- * The client code works with an instance of a concrete creator, albeit through
- * its base interface. As long as the client keeps working with the creator via
- * the base interface, you can pass it any creator's subclass.
+ * Клієнтський код працює з екземпляром конкретного творця і ми можемо передати йому будь-який підклас творця
  */
 function clientCode(creator: Creator) {
     // ...
@@ -82,13 +65,5 @@ function clientCode(creator: Creator) {
     // ...
 }
 
-/**
- * The Application picks a creator's type depending on the configuration or
- * environment.
- */
-console.log('App: Launched with the ConcreteCreator1.');
 clientCode(new ConcreteCreator1());
-console.log('');
-
-console.log('App: Launched with the ConcreteCreator2.');
 clientCode(new ConcreteCreator2());
