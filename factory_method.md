@@ -1,4 +1,4 @@
-Factory Method(Фабричний метод)
+# Factory Method(Фабричний метод)
 породжувальний патерн проектування, який визначає загальний інтерфейс для створення об’єктів у суперкласі, дозволяючи підкласам змінювати тип створюваних об’єктів.
 
 Він вирішує проблему створення різних продуктів, без прив’язки коду до конкретних класів продуктів.
@@ -10,24 +10,28 @@ interface Product {
 * Клас Creator оголошує factory method, який повинен повертати об’єкт класу Product. 
 Підкласи Creator зазвичай забезпечують реалізацію цього методу.
 
-`abstract class Creator {
+```
+abstract class Creator {
     public abstract factoryMethod(): Product;
     public someOperation(): string {
         const product = this.factoryMethod();
         return 'Creator: The same creator's code has just worked with ${product.operation()}';
     }
-}`
+}
+```
 
  * Concrete Creators замінюють заводський метод, щоб змінити тип отриманого продукту.
 
-`class ConcreteCreator1 extends Creator {
+```
+class ConcreteCreator1 extends Creator {
      // В методі ми все ще використовується абстрактний тип продукту, 
      // навіть якщо конкретний продукт фактично повертається з методу. 
      // Таким чином Creator може залишатися незалежним від конкретних класів продуктів
     public factoryMethod(): Product {
         return new ConcreteProduct1();
     }
-}`
+}
+```
 
 `class ConcreteCreator2 extends Creator {
     public factoryMethod(): Product {
