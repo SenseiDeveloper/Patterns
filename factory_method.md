@@ -7,18 +7,17 @@ interface Product {
     operation(): string;
 }
 
-/**
-* Клас Creator оголошує factory method, який повинен повертати об’єкт класу Product. 
-* Підкласи Creator зазвичай забезпечують реалізацію цього методу.
-*/
-abstract class Creator {
+  Клас Creator оголошує factory method, який повинен повертати об’єкт класу Product. 
+  Підкласи Creator зазвичай забезпечують реалізацію цього методу.
+
+`abstract class Creator {
     public abstract factoryMethod(): Product;
 
     public someOperation(): string {
         const product = this.factoryMethod();
-        return `Creator: The same creator's code has just worked with ${product.operation()}`;
+        return 'Creator: The same creator's code has just worked with ${product.operation()}';
     }
-}
+}`
 
 /**
  * Concrete Creators замінюють заводський метод, щоб змінити тип отриманого продукту.
